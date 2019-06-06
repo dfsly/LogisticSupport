@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:text="悬浮球"-->
+            <!--android:onClick="starOval"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:clickable="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="20sp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:onClick="startRocket"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="启动悬浮球" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:clickable="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="20sp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:onClick="stopRocket"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="关闭悬浮球" />&ndash;&gt;-->
+    <!--</RelativeLayout>-->
+    <include
+        android:id="@+id/include_title"
+        layout="@layout/list_title"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/logstic_data_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>

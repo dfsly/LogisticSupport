@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/grey_350</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="CardView.Normal">
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardMaxElevation">2dp</item>
+        <item name="cardPreventCornerOverlap">true</item>
+        <item name="cardBackgroundColor">@color/content_light</item>
+        <item name="contentPadding">0dp</item>
+    </style>
+
+    <style name="CardView.Reactive" parent="CardView.Normal">
+        <item name="cardBackgroundColor">@color/content_light</item>
+    </style>
+
+    <style name="TextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:id="@+id/ll_select_logstic"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="240dp"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="返回"
+            android:id="@+id/select_list_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>

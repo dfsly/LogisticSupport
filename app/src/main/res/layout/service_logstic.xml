@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="240dp"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:text="缩小"
+            android:id="@+id/shrink"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="241dp"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<androidx.cardview.widget.CardView-->
+            <!--android:id="@+id/shrink"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--app:cardBackgroundColor="@color/grey_875"-->
+            <!--android:layout_width="30dp"-->
+
+            <!--android:layout_height="30dp">-->
+            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+
+                <!--&lt;!&ndash;android:background="@color/grey_875"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="30dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="20dp" />&ndash;&gt;-->
+        <!--</androidx.cardview.widget.CardView>-->
+    <!--</RelativeLayout>-->
+    <com.dfsly.android.logsticsupport.ItemDownTimeCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0.5dp"
+        app:cardBackgroundColor="@color/grey_450"
+        android:id="@+id/logstic1"
+        style="@style/CardView.Reactive">
+    </com.dfsly.android.logsticsupport.ItemDownTimeCardView>
+    <com.dfsly.android.logsticsupport.ItemDownTimeCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0.5dp"
+        app:cardBackgroundColor="@color/grey_450"
+        android:id="@+id/logstic2"
+        style="@style/CardView.Reactive">
+    </com.dfsly.android.logsticsupport.ItemDownTimeCardView>
+    <com.dfsly.android.logsticsupport.ItemDownTimeCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0.5dp"
+        app:cardBackgroundColor="@color/grey_450"
+        android:id="@+id/logstic3"
+        style="@style/CardView.Reactive">
+    </com.dfsly.android.logsticsupport.ItemDownTimeCardView>
+    <com.dfsly.android.logsticsupport.ItemDownTimeCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0.5dp"
+        app:cardBackgroundColor="@color/grey_450"
+        android:id="@+id/logstic4"
+        style="@style/CardView.Reactive">
+    </com.dfsly.android.logsticsupport.ItemDownTimeCardView>
+    <!--<androidx.cardview.widget.CardView-->
+        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:layout_margin="0.5dp"-->
+        <!--app:cardBackgroundColor="@color/grey_450"-->
+        <!--android:id="@+id/logstic1"-->
+
+        <!--style="@style/CardView.Reactive">-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="240dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:gravity="center"-->
+        <!--&gt;-->
+        <!--<TextView-->
+            <!--android:id="@+id/select_logstic1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="logstic1     "-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<TextView-->
+            <!--android:id="@+id/time_logstic_1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="01:00"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+    <!--</androidx.cardview.widget.CardView>-->
+
+    <!--<androidx.cardview.widget.CardView-->
+        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:layout_margin="0.5dp"-->
+        <!--app:cardBackgroundColor="@color/grey_450"-->
+        <!--android:id="@+id/logstic2"-->
+
+        <!--style="@style/CardView.Reactive">-->
+    <!--<LinearLayout-->
+        <!--android:gravity="center"-->
+        <!--android:layout_width="240dp"-->
+        <!--android:layout_height="30dp">-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="logstic2     "-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<TextView-->
+            <!--android:id="@+id/time_logstic_2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="01:00"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+    <!--</androidx.cardview.widget.CardView>-->
+    <!--<androidx.cardview.widget.CardView-->
+        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:layout_margin="0.5dp"-->
+        <!--app:cardBackgroundColor="@color/grey_450"-->
+        <!--android:id="@+id/logstic3"-->
+        <!--style="@style/CardView.Reactive">-->
+    <!--<LinearLayout-->
+        <!--android:gravity="center"-->
+        <!--android:layout_width="240dp"-->
+        <!--android:layout_height="30dp">-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="logstic3     "-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<TextView-->
+            <!--android:id="@+id/time_logstic_3"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="01:00"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+    <!--</androidx.cardview.widget.CardView>-->
+    <!--<androidx.cardview.widget.CardView-->
+        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:layout_margin="0.5dp"-->
+        <!--app:cardBackgroundColor="@color/grey_450"-->
+        <!--android:id="@+id/logstic4"-->
+
+        <!--style="@style/CardView.Reactive">-->
+    <!--<LinearLayout-->
+        <!--android:gravity="center"-->
+        <!--android:layout_width="240dp"-->
+        <!--android:layout_height="30dp">-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="logstic4     "-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<TextView-->
+            <!--android:id="@+id/time_logstic_4"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="01:00"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+    <!--</androidx.cardview.widget.CardView>-->
+</LinearLayout>

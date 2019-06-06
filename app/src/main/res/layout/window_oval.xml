@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:id="@+id/but_oval"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/image_oval"
+        android:layout_width="32dp"
+        android:background="@drawable/oval_button"
+        android:layout_height="32dp">
+
+    </ImageView>
+</LinearLayout>
