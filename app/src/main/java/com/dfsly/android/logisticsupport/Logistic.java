@@ -1,6 +1,6 @@
-package com.dfsly.android.logsticsupport;
+package com.dfsly.android.logisticsupport;
 
-public class Logstic {
+public class Logistic {
     private String mNo;
     private int id;
     private int mManpower;
@@ -15,13 +15,6 @@ public class Logstic {
     private int h;
     private int m;
     public boolean isSave=false;
-
-//    public boolean isSave(){
-//        return  isSave;
-//    }
-//    public void setSave(boolean b){
-//        isSave=b;
-//    }
 
     public String getNo() {
         return mNo;

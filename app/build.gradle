@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.dfsly.android.logsticsupport"
+        applicationId "com.dfsly.android.logisticsupport"
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
@@ -23,6 +23,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.cardview:cardview:1.0.0'
     testImplementation 'junit:junit:4.12'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha06'
 
-    implementation 'com.github.seven332:easyrecyclerview:0.1.1'
+
 }

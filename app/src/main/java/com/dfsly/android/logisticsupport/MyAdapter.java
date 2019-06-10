@@ -1,31 +1,26 @@
-package com.dfsly.android.logsticsupport;
-
-//import android.support.v7.widget.RecyclerView;
+package com.dfsly.android.logisticsupport;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
-import android.widget.CompoundButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
 
     Context mContext;
-    List<Logstic> logstics;
+    List<Logistic> logistics;
     LayoutInflater inflater;
     Drawable drawable;
 
-    public MyAdapter(Context context, List<Logstic> logstics) {
+    public MyAdapter(Context context, List<Logistic> logistics) {
         inflater = LayoutInflater.from(context);
         this.mContext = context;
-        this.logstics = logstics;
+        this.logistics = logistics;
     }
 
     @Override
@@ -42,31 +37,31 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
         }else{
             holder.llItemRecy.setBackgroundColor(mContext.getResources().getColor(R.color.content_light));
         }
-        final Logstic logstic = logstics.get(position);
-        holder.ammunition.setText(logstic.getAmmunition() + "");
-        holder.manpower.setText(logstic.getManpower() + "");
-        holder.ration.setText(logstic.getRation() + "");
-        holder.parts.setText(logstic.getParts() + "");
-        holder.no.setText(logstic.getNo());
-        int h = logstic.getH();
-        int m = logstic.getM();
+        final Logistic logistic = logistics.get(position);
+        holder.ammunition.setText(logistic.getAmmunition() + "");
+        holder.manpower.setText(logistic.getManpower() + "");
+        holder.ration.setText(logistic.getRation() + "");
+        holder.parts.setText(logistic.getParts() + "");
+        holder.no.setText(logistic.getNo());
+        int h = logistic.getH();
+        int m = logistic.getM();
 
         holder.time.setText(Utils.getTextTime(h,m));
 
-        int mQuickRepair = logstic.getQuickRepair();
-        int mQuickDone = logstic.getQuickDone();
-        int mContract = logstic.getContract();
-        int mEquipment = logstic.getEquipment();
-        int mCoin = logstic.getCoin();
+        int mQuickRepair = logistic.getQuickRepair();
+        int mQuickDone = logistic.getQuickDone();
+        int mContract = logistic.getContract();
+        int mEquipment = logistic.getEquipment();
+        int mCoin = logistic.getCoin();
         int flag = 1;
 
-        holder.checkBoxDownTimeSave.setChecked(logstic.isSave);
+        holder.checkBoxDownTimeSave.setChecked(logistic.isSave);
         holder.checkBoxDownTimeSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isChecked = holder.checkBoxDownTimeSave.isChecked();
-                logstic.isSave=isChecked;
-                Settings.putBoolean(Integer.toString(logstic.getId()),isChecked);
+                logistic.isSave=isChecked;
+                Settings.putBoolean(Integer.toString(logistic.getId()),isChecked);
             }
         });
 
@@ -142,6 +137,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
 
     @Override
     public int getItemCount() {
-        return logstics.size();
+        return logistics.size();
     }
 }

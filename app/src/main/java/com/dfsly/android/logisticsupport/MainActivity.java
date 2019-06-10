@@ -1,4 +1,4 @@
-package com.dfsly.android.logsticsupport;
+package com.dfsly.android.logisticsupport;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -6,12 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-//import android.support.v7.widget.LinearLayoutManager;
-//import android.support.v7.widget.RecyclerView;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,41 +29,25 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-        com.dfsly.android.logsticsupport.Settings.initialize(this);
-        recyclerView = findViewById(R.id.logstic_data_recycler_view);
+        com.dfsly.android.logisticsupport.Settings.initialize(this);
+        recyclerView = findViewById(R.id.logistic_data_recycler_view);
         ivStarOval = findViewById(R.id.oval_start);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        LogsticLab logsticLab = LogsticLab.get(this);
-        List<Logstic> logstics = logsticLab.getLogstics();
-        recyclerView.setAdapter(new MyAdapter(this, logstics));
-
-//        startService(new Intent(this,RocketService.class));
-
-        TextView textView1 = new TextView(this);
+        LogisticLab logisticLab = LogisticLab.get(this);
+        List<Logistic> logistics = logisticLab.getLogistics();
+        recyclerView.setAdapter(new MyAdapter(this, logistics));
     }
 
     public void starOval(View view) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if ("com.dfsly.android.logsticsupport.LogsticService".equals(service.service.getClassName())) {
-                stopService(new Intent(this, LogsticService.class));
-                ivStarOval.setImageDrawable(getResources().getDrawable(R.drawable.oval_button));
+            if ("com.dfsly.android.logisticsupport.LogisticService".equals(service.service.getClassName())) {
+                stopLogisticService();
                 return;
             }
         }
         startFloatingService();
-    }
-
-    public void startRocket(View view) {
-        startFloatingService();
-//        startService(new Intent(this, RocketService.class));
-//        finish();
-    }
-
-    public void stopService(View view) {
-        stopService(new Intent(this, LogsticService.class));
-
     }
 
     public void startFloatingService() {
@@ -75,17 +56,21 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "当前无权限，请授权", Toast.LENGTH_LONG).show();
                 startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())), 0);
             }else {
-                startService(new Intent(this, LogsticService.class));
-                ivStarOval.setImageDrawable(getResources().getDrawable(R.drawable.oval_blue));
+                startLogisticService();
             }
         } else {
-            startService(new Intent(this, LogsticService.class));
-            ivStarOval.setImageDrawable(getResources().getDrawable(R.drawable.oval_blue));
+            startLogisticService();
         }
     }
 
-//    private void init(){
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        Fragment fragmentById = fragmentManager.findFragmentById();
-//    }
+    private void startLogisticService() {
+        startService(LogisticService.newIntent(this));
+        ivStarOval.setImageDrawable(getResources().getDrawable(R.drawable.oval_blue));
+    }
+
+    private void stopLogisticService() {
+        stopService(LogisticService.newIntent(this));
+        ivStarOval.setImageDrawable(getResources().getDrawable(R.drawable.oval_button));
+    }
+
 }

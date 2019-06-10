@@ -1,4 +1,4 @@
-package com.dfsly.android.logsticsupport;
+package com.dfsly.android.logisticsupport;
 
 import android.content.Context;
 
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsFromJson {
-    public List<Logstic> getJsonData(Context context){
-        List<Logstic> items = new ArrayList<>();
+    public List<Logistic> getJsonData(Context context){
+        List<Logistic> items = new ArrayList<>();
         JSONObject jsonBody = parseJson(context,"expedscorer.json");
         try {
             parseItems(items,jsonBody);
@@ -24,25 +24,25 @@ public class ItemsFromJson {
         }
         return items;
     }
-    private void parseItems(List<Logstic> items, JSONObject jsonBody) throws JSONException {
-        JSONArray logsticsJsonArray = jsonBody.getJSONArray("expeds");
-        for(int i=0;i<logsticsJsonArray.length();i++){
-            JSONObject logsticJsonObject = logsticsJsonArray.getJSONObject(i);
+    private void parseItems(List<Logistic> items, JSONObject jsonBody) throws JSONException {
+        JSONArray logisticsJsonArray = jsonBody.getJSONArray("expeds");
+        for(int i=0;i<logisticsJsonArray.length();i++){
+            JSONObject logisticJsonObject = logisticsJsonArray.getJSONObject(i);
 
-            Logstic item = new Logstic();
-            item.setManpower(logsticJsonObject.getInt("manpower"));
-            item.setAmmunition(logsticJsonObject.getInt("ammo"));
-            item.setRation(logsticJsonObject.getInt("ration"));
-            item.setParts(logsticJsonObject.getInt("part"));
-            item.setQuickRepair(logsticJsonObject.getInt("quickRepair"));
-            item.setQuickDone(logsticJsonObject.getInt("quickDone"));
-            item.setContract(logsticJsonObject.getInt("contract"));
-            item.setEquipment(logsticJsonObject.getInt("equipment"));
-            item.setCoin(logsticJsonObject.getInt("coin"));
-            item.setNo(logsticJsonObject.getString("no"));
-            int index = logsticJsonObject.getInt("id")-1;
+            Logistic item = new Logistic();
+            item.setManpower(logisticJsonObject.getInt("manpower"));
+            item.setAmmunition(logisticJsonObject.getInt("ammo"));
+            item.setRation(logisticJsonObject.getInt("ration"));
+            item.setParts(logisticJsonObject.getInt("part"));
+            item.setQuickRepair(logisticJsonObject.getInt("quickRepair"));
+            item.setQuickDone(logisticJsonObject.getInt("quickDone"));
+            item.setContract(logisticJsonObject.getInt("contract"));
+            item.setEquipment(logisticJsonObject.getInt("equipment"));
+            item.setCoin(logisticJsonObject.getInt("coin"));
+            item.setNo(logisticJsonObject.getString("no"));
+            int index = logisticJsonObject.getInt("id")-1;
             item.setId(index);
-            JSONObject timeJO = logsticJsonObject.getJSONObject("time");
+            JSONObject timeJO = logisticJsonObject.getJSONObject("time");
             item.setH(timeJO.getInt("h"));
             item.setM(timeJO.getInt("m"));
 

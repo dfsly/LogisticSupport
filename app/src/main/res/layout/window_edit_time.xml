@@ -1,31 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="8-1"
-            android:id="@+id/edit_logstic_name"
-            android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_below="@id/edit_logstic_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <EditText
-                android:layout_width="wrap_content"
-                android:hint="hour"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:text=":"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:hint="minute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-</androidx.cardview.widget.CardView>
+    <RelativeLayout
+        android:id="@+id/card_view_edit_time"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_name"
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/grey_450">
+
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:id="@+id/edit_logistic_name"
+                    android:paddingRight="6dp"
+                    android:textSize="17sp"
+                    android:text="8-1" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_content"
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cv_name"
+            app:cardBackgroundColor="@color/grey_450">
+
+            <LinearLayout
+                android:id="@+id/re_content"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="16dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:textSize="17sp"
+                    android:gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="时:" />
+                <EditText
+                    android:layout_weight="1"
+
+                    android:id="@+id/hour_edit_time_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textSize="17sp"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分:" />
+
+                <EditText
+                    android:layout_weight="1"
+
+                    android:id="@+id/minute_edit_time_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_alignBottom="@+id/cv_name"
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/grey_450">
+
+            <Button
+                android:id="@+id/ed_back"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:background="@drawable/back" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cv_content"
+            android:layout_alignParentRight="true"
+            app:cardBackgroundColor="@color/grey_450">
+
+            <Button
+                android:id="@+id/confirm"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_check_black_24dp" />
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+</LinearLayout>

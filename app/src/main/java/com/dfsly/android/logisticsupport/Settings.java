@@ -1,4 +1,4 @@
-package com.dfsly.android.logsticsupport;
+package com.dfsly.android.logisticsupport;
 
 import android.content.Context;
 import android.content.SharedPreferences;

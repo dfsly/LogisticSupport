@@ -1,7 +1,6 @@
-package com.dfsly.android.logsticsupport;
+package com.dfsly.android.logisticsupport;
 
 
-//import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;

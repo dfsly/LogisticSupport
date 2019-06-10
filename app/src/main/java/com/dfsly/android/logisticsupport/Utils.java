@@ -1,4 +1,4 @@
-package com.dfsly.android.logsticsupport;
+package com.dfsly.android.logisticsupport;
 
 public class Utils {
     public static String getTextTime(int h, int m){
@@ -14,5 +14,10 @@ public class Utils {
             timeText = timeText+":"+m;
         }
         return timeText;
+    }
+
+
+    public static long getMillis(int h,int m){
+        return (h * 60 + m) * 60000;
     }
 }

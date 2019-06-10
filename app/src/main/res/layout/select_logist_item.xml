@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/grey_450"
     android:layout_width="wrap_content" android:layout_height="wrap_content"
-    android:layout_margin="0.5dp"
+    app:cardBackgroundColor="@color/grey_450"
     style="@style/CardView.Reactive">
     <LinearLayout
-        android:layout_width="240dp"
+        android:layout_width="160dp"
         android:layout_height="35dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -14,22 +13,22 @@
         <TextView
             android:id="@+id/tv_no_child"
             android:layout_weight="1"
-            android:gravity="right"
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_width="0dp"
             android:text="0-1"
             android:textSize="17sp"
             android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_weight="0.2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-        </LinearLayout>
         <TextView
+            android:background="@color/grey_400"
             android:layout_weight="1"
             android:id="@+id/tv_time_child"
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_width="0dp"
             android:text="time:1:00"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="10dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
