@@ -274,8 +274,14 @@ public class LogisticService extends Service implements View.OnTouchListener {
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+
+
+        if(Build.VERSION.SDK_INT >=26){
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        }else
         if (Build.VERSION.SDK_INT > 24) {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+                        layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+
         } else {
             layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
         }
@@ -294,6 +300,9 @@ public class LogisticService extends Service implements View.OnTouchListener {
         editTimeLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         editTimeLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         //获取焦点，返回键无效
+        if(Build.VERSION.SDK_INT >=26){
+            editTimeLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        }else
         if (Build.VERSION.SDK_INT > 24) {
             editTimeLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
         } else {
