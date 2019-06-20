@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/grey_300"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="3dp"
+        app:cardMaxElevation="3dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="0dp">
+
+        <RelativeLayout
+            android:id="@+id/window_toast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20sp"
+            android:paddingBottom="5dp">
+
+            <RelativeLayout
+                android:id="@+id/rl_window_toast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_window_toast"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:background="@mipmap/ic_ls" />
+
+                <TextView
+                    android:id="@+id/title_window_toast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/img_window_toast"
+                    android:text="@string/app_name"
+                    android:textColor="#797979"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/content_window_toast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_window_toast"
+                android:layout_marginTop="5dp"
+                android:text="后勤支援7-1行动结束！"
+                android:textColor="#333"
+                android:layout_marginBottom="5dp"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

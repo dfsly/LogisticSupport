@@ -6,8 +6,8 @@ android {
         applicationId "com.dfsly.android.logisticsupport"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.0.2"
+        versionCode 3
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -24,6 +24,5 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     testImplementation 'junit:junit:4.12'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha06'
-
-
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
 }

@@ -1,44 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
     android:id="@+id/ll_select_logistic"
-    android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="165dp"
         android:layout_height="wrap_content">
+
         <androidx.cardview.widget.CardView
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
             style="@style/CardView.Reactive"
-            app:cardBackgroundColor="@color/grey_450"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:cardBackgroundColor="@color/grey_275">
             <!--<RelativeLayout-->
-                <!--android:layout_width="240dp"-->
-                <!--android:layout_height="35dp">-->
-                <!--<TextView-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:text="后勤"-->
-                <!--android:layout_height="match_parent" />-->
-                <!--<TextView-->
-                <!--android:gravity="center"-->
-                <!--android:layout_weight="0.7"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:text="时间"-->
-                <!--android:layout_height="match_parent" />-->
-                <Button
-                    android:background="@drawable/back"
-                    android:id="@+id/select_list_return"
-                    android:layout_width="35dp"
-                    android:layout_height="30dp" />
+            <!--android:layout_width="240dp"-->
+            <!--android:layout_height="35dp">-->
+            <!--<TextView-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:text="后勤"-->
+            <!--android:layout_height="match_parent" />-->
+            <!--<TextView-->
+            <!--android:gravity="center"-->
+            <!--android:layout_weight="0.7"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:text="时间"-->
+            <!--android:layout_height="match_parent" />-->
+            <Button
+                android:id="@+id/select_list_return"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:background="@drawable/back" />
             <!--</RelativeLayout>-->
 
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/sv_list_logistic"
+        android:background="@color/text_color"
+        android:layout_width="wrap_content"
+        android:layout_height="255dp">
+        <LinearLayout
+            android:id="@+id/ll_list_logistic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

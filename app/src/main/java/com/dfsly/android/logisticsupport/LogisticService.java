@@ -1,30 +1,49 @@
 package com.dfsly.android.logisticsupport;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.PixelFormat;
+import android.os.Binder;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 
 public class LogisticService extends Service implements View.OnTouchListener {
+    TimePicker timePicker;
+
+    Boolean isShowToast;
+    int delayTime;
     int[] keys = new int[4];
     //悬浮球
     ImageView imageOval;
@@ -41,8 +60,11 @@ public class LogisticService extends Service implements View.OnTouchListener {
     LinearLayout cdWindowEditTime;
     WindowManager.LayoutParams editTimeLayoutParams;
     TextView nameEditTimeLayout;
-    EditText hourEditTimeLayout;
-    EditText minuteEditTimeLayout;
+    //    EditText hourEditTimeLayout;
+//    EditText minuteEditTimeLayout;
+    //toast
+    View[] llWindowToasts = new View[4];
+    WindowManager.LayoutParams toastLayoutParams;
 
     WindowManager windowManager;
     Button mButtonShrink;
@@ -50,8 +72,11 @@ public class LogisticService extends Service implements View.OnTouchListener {
 
     LinearLayout llWindowDownTime;
     View ivWindowOval;
+    //后勤列表
     private LinearLayout llWindowSelectLogistic;
-    WindowManager.LayoutParams layoutParams;
+    LinearLayout llListLogistic;
+
+    WindowManager.LayoutParams defaultLayoutParams;
     LinearLayout llWindowChild;
 
     List<Logistic> logistics;
@@ -61,23 +86,51 @@ public class LogisticService extends Service implements View.OnTouchListener {
     //用于记录所点击的当前界面的位置
     int index;
     int winHeight;
+    int winWidth;
 
     public static Intent newIntent(Context context) {
-        return new Intent(context,LogisticService.class);
+        return new Intent(context, LogisticService.class);
     }
+    class LogisticServiceBinder extends Binder {
+        public void refreshLogisticList(){
+            logistics = LogisticLab.get(getApplicationContext()).getLogistics();
+//            windowManager.removeView(llWindowSelectLogistic);
+            llListLogistic.removeAllViews();
+            addItem(llListLogistic);
+            windowManager.updateViewLayout(llWindowSelectLogistic,defaultLayoutParams);
+//            windowManager.addView(llWindowSelectLogistic,defaultLayoutParams);
+        }
 
+        public void setToastSwitch(boolean b){
+            isShowToast = b;
+        }
+
+        public void setToastDelay(int sec){
+            delayTime = sec*1000;
+        }
+    }
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new LogisticServiceBinder();
+//        return null;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        logistics = LogisticLab.get(this).getLogistics();
+        isShowToast = Settings.getBoolean("switch_toast", true);
+        delayTime = Settings.getInt("delay_time", 5) * 1000;
+        logistics = LogisticLab.get(getApplicationContext()).getLogistics();
+
         llWindowDownTime = (LinearLayout) View.inflate(this, R.layout.service_logistic, null);
         ivWindowOval = View.inflate(this, R.layout.window_oval, null);
         imageOval = ivWindowOval.findViewById(R.id.image_oval);
+        //设置悬浮球大小
+//        ViewGroup.LayoutParams p = imageOval.getLayoutParams();
+//        p.height=300;
+//        p.width=300;
+//        imageOval.setLayoutParams(p);
+
         ivWindowOval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +155,7 @@ public class LogisticService extends Service implements View.OnTouchListener {
                 }
             }
         });
+        llWindowDownTime.findViewById(R.id.down_time_layout_alpha).getBackground().setAlpha(50);
         cardViews[0] = llWindowDownTime.findViewById(R.id.logistic1);
         cardViews[1] = llWindowDownTime.findViewById(R.id.logistic2);
         cardViews[2] = llWindowDownTime.findViewById(R.id.logistic3);
@@ -123,48 +177,66 @@ public class LogisticService extends Service implements View.OnTouchListener {
         windowManager = (WindowManager) getApplicationContext().getSystemService(
                 Context.WINDOW_SERVICE);
         winHeight = windowManager.getDefaultDisplay().getHeight();
-        initLayoutParams();
+        winWidth = windowManager.getDefaultDisplay().getWidth();
+        initDefaultLayoutParams();
         initEditTimeLayoutParams();
 
         initSelectLayout();
 
         initEditTimeLayout();
+        initToastLayoutParams(getResources().getConfiguration().orientation);
         llWindowDownTime.setVisibility(View.GONE);
         cdWindowEditTime.setVisibility(View.GONE);
-        windowManager.addView(ivWindowOval, layoutParams);
-        windowManager.addView(llWindowDownTime, layoutParams);
-        windowManager.addView(llWindowSelectLogistic, layoutParams);
+        windowManager.addView(ivWindowOval, defaultLayoutParams);
+        windowManager.addView(llWindowDownTime, defaultLayoutParams);
+        windowManager.addView(llWindowSelectLogistic, defaultLayoutParams);
         windowManager.addView(cdWindowEditTime, editTimeLayoutParams);
         ivWindowOval.setOnTouchListener(this);
+//        initTestDialog();
     }
 
     int starY;
-
+    int starX;
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 starY = (int) event.getRawY();
+                starX = (int) event.getRawX();
                 break;
             case MotionEvent.ACTION_MOVE:
                 int endY = (int) event.getRawY();
                 int dy = endY - starY;
+                int endX = (int) event.getRawX();
+                int dx = endX - starX;
 
                 //更新view位置
-                layoutParams.y += dy;
-                if (layoutParams.y > winHeight - ivWindowOval.getHeight())
-                    layoutParams.y = winHeight - ivWindowOval.getHeight();
-                if (layoutParams.y < 0) layoutParams.y = 0;
+                defaultLayoutParams.y += dy;
+                if (defaultLayoutParams.y > winHeight - ivWindowOval.getHeight())
+                    defaultLayoutParams.y = winHeight - ivWindowOval.getHeight();
+                if (defaultLayoutParams.y < 0) defaultLayoutParams.y = 0;
 
-                windowManager.updateViewLayout(ivWindowOval, layoutParams);
+                defaultLayoutParams.x -= dx;
+                if (defaultLayoutParams.x > winWidth - ivWindowOval.getWidth())
+                    defaultLayoutParams.x = winWidth - ivWindowOval.getWidth();
+                if (defaultLayoutParams.x < 0) defaultLayoutParams.x = 0;
+
+                windowManager.updateViewLayout(ivWindowOval, defaultLayoutParams);
 
                 starY = (int) event.getRawY();
+                starX = (int) event.getRawX();
 
                 break;
             case MotionEvent.ACTION_UP:
-                windowManager.updateViewLayout(llWindowDownTime, layoutParams);
-                windowManager.updateViewLayout(llWindowSelectLogistic, layoutParams);
+                if(defaultLayoutParams.x>(winWidth/2-ivWindowOval.getWidth()/2)){
+                    defaultLayoutParams.x=winWidth - ivWindowOval.getWidth();
+                }else{
+                    defaultLayoutParams.x=0;
+                }
+                windowManager.updateViewLayout(ivWindowOval,defaultLayoutParams);
+                windowManager.updateViewLayout(llWindowDownTime, defaultLayoutParams);
+                windowManager.updateViewLayout(llWindowSelectLogistic, defaultLayoutParams);
                 break;
         }
         return false;
@@ -181,7 +253,13 @@ public class LogisticService extends Service implements View.OnTouchListener {
         public void onClick(View v) {
             index = i;
             nameEditTimeLayout.setText(nameDownTimeLayout[i].getText());
-            gotoEditTimeLFromDownTimeL();
+            //拿到倒计时当前的时间，并赋值给timePicker
+            TextView textView = cardViews[i].findViewById(R.id.time_logistic);
+            String s = textView.getText().toString();
+            String[] arr = s.split(":", 3);
+            int h = Integer.parseInt(arr[0]);
+            int m = Integer.parseInt(arr[1]);
+            gotoEditTimeLFromDownTimeL(h, m);
         }
     }
 
@@ -221,9 +299,12 @@ public class LogisticService extends Service implements View.OnTouchListener {
 
     private void initEditTimeLayout() {
         cdWindowEditTime = (LinearLayout) View.inflate(this, R.layout.window_edit_time, null);
+        timePicker = cdWindowEditTime.findViewById(R.id.dialog_time_picker);
+        timePicker.setIs24HourView(true);
         nameEditTimeLayout = cdWindowEditTime.findViewById(R.id.edit_logistic_name);
-        hourEditTimeLayout = cdWindowEditTime.findViewById(R.id.hour_edit_time_layout);
-        minuteEditTimeLayout = cdWindowEditTime.findViewById(R.id.minute_edit_time_layout);
+
+//        hourEditTimeLayout = cdWindowEditTime.findViewById(R.id.hour_edit_time_layout);
+//        minuteEditTimeLayout = cdWindowEditTime.findViewById(R.id.minute_edit_time_layout);
 
         cdWindowEditTime.findViewById(R.id.ed_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,26 +312,44 @@ public class LogisticService extends Service implements View.OnTouchListener {
                 gotoDownTimeLFromEditTimeL();
             }
         });
+        cdWindowEditTime.findViewById(R.id.cv_no_touch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //拦截cardView的点击事件
+                return;
+            }
+        });
         cdWindowEditTime.findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int h, m;
-                String text = hourEditTimeLayout.getText().toString();
-                if (text.equals("")) {
-                    h = 0;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    h = timePicker.getHour();
+                    m = timePicker.getMinute();
                 } else {
-                    h = Integer.parseInt(text);
-                }
-                text = minuteEditTimeLayout.getText().toString();
-                if (text.equals("")) {
-                    m = 0;
-                } else {
-                    m = Integer.parseInt(text);
+                    h = timePicker.getCurrentHour();
+                    m = timePicker.getCurrentMinute();
                 }
                 myCountDownTimers[index].cancel();
                 myCountDownTimers[index] = new MyCountDownTimer(Utils.getMillis(h, m), 1000, index);
                 myCountDownTimers[index].start();
                 gotoDownTimeLFromEditTimeL();
+//                String text = hourEditTimeLayout.getText().toString();
+//                if (text.equals("")) {
+//                    h = 0;
+//                } else {
+//                    h = Integer.parseInt(text);
+//                }
+//                text = minuteEditTimeLayout.getText().toString();
+//                if (text.equals("")) {
+//                    m = 0;
+//                } else {
+//                    m = Integer.parseInt(text);
+//                }
+//                myCountDownTimers[index].cancel();
+//                myCountDownTimers[index] = new MyCountDownTimer(Utils.getMillis(h, m), 1000, index);
+//                myCountDownTimers[index].start();
+//                gotoDownTimeLFromEditTimeL();
             }
         });
     }
@@ -260,59 +359,59 @@ public class LogisticService extends Service implements View.OnTouchListener {
         llWindowDownTime.setVisibility(View.VISIBLE);
     }
 
-    private void gotoEditTimeLFromDownTimeL() {
+    private void gotoEditTimeLFromDownTimeL(int h, int m) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            timePicker.setHour(h);
+            timePicker.setMinute(m);
+        }else{
+            timePicker.setCurrentHour(h);
+            timePicker.setCurrentMinute(m);
+        }
         cdWindowEditTime.setVisibility(View.VISIBLE);
         llWindowDownTime.setVisibility(View.GONE);
     }
 
-    private void initLayoutParams() {
-//        WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-        layoutParams = new WindowManager.LayoutParams();
+    private void initLayoutParams(WindowManager.LayoutParams layoutParams) {
         //透明背景
-        layoutParams.format = PixelFormat.TRANSLUCENT;
+//        layoutParams.format = PixelFormat.TRANSLUCENT;
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-
-
-        if(Build.VERSION.SDK_INT >=26){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        }else
-        if (Build.VERSION.SDK_INT > 24) {
-                        layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
-
         } else {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         }
-        layoutParams.gravity = Gravity.RIGHT | Gravity.TOP;
-        layoutParams.x = 5;
-//        System.out.println("winHeight" + (int) Math.floor(0.5 * winHeight));
-        layoutParams.y = (int) Math.floor(0.5 * winHeight);
-
+//        else {
+        //MiUI 使用TYPE_TOAST会闪退
+//            layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+//        }
     }
 
     private void initEditTimeLayoutParams() {
         editTimeLayoutParams = new WindowManager.LayoutParams();
-        //透明背景
-        editTimeLayoutParams.format = PixelFormat.TRANSLUCENT;
-        editTimeLayoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        editTimeLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        initLayoutParams(editTimeLayoutParams);
+        editTimeLayoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        editTimeLayoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+
         editTimeLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         //获取焦点，返回键无效
-        if(Build.VERSION.SDK_INT >=26){
-            editTimeLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        }else
-        if (Build.VERSION.SDK_INT > 24) {
-            editTimeLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
-        } else {
-            editTimeLayoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
-        }
         editTimeLayoutParams.gravity = Gravity.CENTER;
+        editTimeLayoutParams.format = PixelFormat.TRANSLUCENT;
+//        editTimeLayoutParams.alpha = 0.9f;
+    }
+
+    private void initDefaultLayoutParams() {
+        defaultLayoutParams = new WindowManager.LayoutParams();
+        initLayoutParams(defaultLayoutParams);
+        defaultLayoutParams.format = PixelFormat.TRANSLUCENT;
+        defaultLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        defaultLayoutParams.gravity = Gravity.RIGHT | Gravity.TOP;
+        defaultLayoutParams.x = 5;
+        defaultLayoutParams.y = (int) Math.floor(0.5 * winHeight);
     }
 
     private void initSelectLayout() {
-
         //添加布局
         llWindowSelectLogistic = (LinearLayout) View.inflate(this, R.layout.select_logistic, null);
         //拿到容器布局
@@ -323,12 +422,21 @@ public class LogisticService extends Service implements View.OnTouchListener {
                 showDownTimeList();
             }
         });
+        llWindowSelectLogistic.findViewById(R.id.sv_list_logistic).getBackground().setAlpha(50);
+        llListLogistic = llWindowSelectLogistic.findViewById(R.id.ll_list_logistic);
+        addItem(llListLogistic);
+        //初始化完成后设置为不可见
+        llWindowSelectLogistic.setVisibility(View.GONE);
+    }
+
+    public void addItem(LinearLayout llListLogistic){
         Logistic logistic;
+        boolean remindAdd = true;
         for (int i = 0; i < logistics.size(); i++) {
             logistic = logistics.get(i);
             if (logistic.isSave) {
                 //返回加载的layout
-                layoutChild = LayoutInflater.from(this).inflate(R.layout.select_logist_item, llWindowSelectLogistic, false);
+                layoutChild = LayoutInflater.from(this).inflate(R.layout.select_logist_item, llListLogistic, false);
 
                 //需要提供parent的layoutParams来约束select_logist_item生成的位置
 //                layoutChild = View.inflate(this, R.layout.select_logist_item, null);
@@ -341,12 +449,16 @@ public class LogisticService extends Service implements View.OnTouchListener {
 
                 //为容器布局添加子view
                 llWindowChild.setOnClickListener(new CheckItemOnClick(logistic.getId()));
-                llWindowSelectLogistic.addView(layoutChild);
+                llListLogistic.addView(layoutChild);
+                remindAdd = false;
             }
         }
 
-        //初始化完成后设置为不可见
-        llWindowSelectLogistic.setVisibility(View.GONE);
+        if (remindAdd) {
+            layoutChild = LayoutInflater.from(this).inflate(R.layout.window_remind, llWindowSelectLogistic, false);
+            llListLogistic.addView(layoutChild);
+//            Toast.makeText(this,"选择后勤后请重启悬浮球",Toast.LENGTH_LONG).show();
+        }
     }
 
     class CheckItemOnClick implements View.OnClickListener {
@@ -401,6 +513,8 @@ public class LogisticService extends Service implements View.OnTouchListener {
             this.tv_time = cv.findViewById(R.id.time_logistic);
             restarts[ledIndex].setVisibility(View.GONE);
             editTimes[ledIndex].setVisibility(View.VISIBLE);
+
+            cv.findViewById(R.id.placeholder).setVisibility(View.GONE);
         }
 
         @Override
@@ -409,7 +523,24 @@ public class LogisticService extends Service implements View.OnTouchListener {
             long h = sSum / 3600;
             long m = sSum % 3600 / 60;
             long s = sSum % 3600 % 60;
-            tv_time.setText(h + ":" + m + ":" + s);
+            String sTime;
+            if(h<10){
+                sTime="0"+h+":";
+            }else{
+                sTime=h+":";
+            }
+            if(m<10){
+                sTime=sTime+"0"+m+":";
+            }else{
+                sTime=sTime+m+":";
+            }
+            if(s<10){
+                sTime=sTime+"0"+s;
+            }else {
+                sTime=sTime+s;
+            }
+//            tv_time.setText(h + ":" + m + ":" + s);
+            tv_time.setText(sTime);
         }
 
         @Override
@@ -420,6 +551,11 @@ public class LogisticService extends Service implements View.OnTouchListener {
             led_state[ledIndex] = led_red;
             editTimes[ledIndex].setVisibility(View.GONE);
             restarts[ledIndex].setVisibility(View.VISIBLE);
+            if (isShowToast) {
+                //创建并弹出toast窗口通知
+                TextView tv = cardViews[ledIndex].findViewById(R.id.id_logistic);
+                showCustomToast(tv.getText().toString(), ledIndex);
+            }
         }
     }
 
@@ -434,6 +570,120 @@ public class LogisticService extends Service implements View.OnTouchListener {
         windowManager.removeView(llWindowDownTime);
         windowManager.removeView(ivWindowOval);
         windowManager.removeView(cdWindowEditTime);
+        for (int i = 0; i < 4; i++) {
+            if (llWindowToasts[i] != null) {
+                windowManager.removeView(llWindowToasts[i]);
+            }
+        }
         super.onDestroy();
+    }
+
+    private final static int ANIM_CLOSE = 10;
+
+    public void showCustomToast(String logisticName, int index) {
+        //至少需要60s，同一个位置的toast才会被重新赋值
+        llWindowToasts[index] = getToastLayout(logisticName);
+        windowManager.addView(llWindowToasts[index], toastLayoutParams);
+        setHeadToastViewAnim(index);
+        mHandler.sendEmptyMessageDelayed(index, delayTime);
+    }
+
+    @SuppressLint("HandlerLeak")
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what >= 0 && msg.what <= 3) {
+                animDismiss(msg.what);
+            }
+        }
+    };
+
+    private void animDismiss(final int index) {
+//        System.out.println("index:"+index);
+        if (llWindowToasts[index] == null) {
+            return;
+        }
+        ObjectAnimator animator = ObjectAnimator.ofFloat(llWindowToasts[index], "translationY", 0, -700);
+        animator.setDuration(1000);
+        animator.start();
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                dismiss(index);
+            }
+        });
+    }
+
+    private void dismiss(int index) {
+        if (null != llWindowToasts[index]) {
+            windowManager.removeView(llWindowToasts[index]);
+            llWindowToasts[index] = null;
+        }
+    }
+
+    private void setHeadToastViewAnim(int index) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(llWindowToasts[index], "translationY", -700, 0);
+        animator.setDuration(1000);
+        animator.start();
+    }
+
+    //
+    public void initToastLayoutParams(int orientation) {
+        toastLayoutParams = new WindowManager.LayoutParams();
+        toastLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+
+                | WindowManager.LayoutParams.FLAG_FULLSCREEN
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+
+        toastLayoutParams.format = PixelFormat.TRANSLUCENT;
+        toastLayoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        toastLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            toastLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            toastLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+        }
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            toastLayoutParams.y = getStatusBarHeight(getApplicationContext());
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            toastLayoutParams.y = 0;
+        }
+        toastLayoutParams.gravity = Gravity.RIGHT | Gravity.TOP;
+        toastLayoutParams.x = 0;
+//        toastLayoutParams.format = -3;  // 会影响Toast中的布局消失的时候父控件和子控件消失的时机不一致，比如设置为-1之后就会不同步
+//        wm_params.alpha = 1f;
+
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        System.out.println("result:" + result);
+        return result;
+    }
+
+    private View getToastLayout(String logisticName) {
+        View llWindowToast = View.inflate(this, R.layout.window_toast, null);
+        TextView tv = llWindowToast.findViewById(R.id.content_window_toast);
+        tv.setText("后勤支援" + logisticName + "行动结束！");
+        return llWindowToast;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //屏幕方向改变时重新生成toast的layoutParams
+        initToastLayoutParams(newConfig.orientation);
+//        if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+//            System.out.println("orientation:"+"竖屏");
+//        }else if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
+//            System.out.println("orientation:"+"横屏");
+//        }
     }
 }

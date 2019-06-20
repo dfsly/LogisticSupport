@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            app:cardBackgroundColor="@color/grey_450">
+            app:cardBackgroundColor="@color/grey_300">
 
             <Button
                 android:id="@+id/shrink"
@@ -42,125 +42,40 @@
     <!--&lt;!&ndash;android:layout_height="20dp" />&ndash;&gt;-->
     <!--</androidx.cardview.widget.CardView>-->
     <!--</RelativeLayout>-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/text_color"
+        android:id="@+id/down_time_layout_alpha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <com.dfsly.android.logisticsupport.ItemDownTimeCardView
         android:id="@+id/logistic1"
         style="@style/CardView.Reactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="0.5dp"
-        app:cardBackgroundColor="@color/grey_450"/>
+        app:cardBackgroundColor="@color/grey_300"/>
 
     <com.dfsly.android.logisticsupport.ItemDownTimeCardView
         android:id="@+id/logistic2"
         style="@style/CardView.Reactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="0.5dp"
-        app:cardBackgroundColor="@color/grey_450"/>
+        app:cardBackgroundColor="@color/grey_300"/>
 
     <com.dfsly.android.logisticsupport.ItemDownTimeCardView
         android:id="@+id/logistic3"
         style="@style/CardView.Reactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="0.5dp"
-        app:cardBackgroundColor="@color/grey_450"/>
+        app:cardBackgroundColor="@color/grey_300"/>
 
     <com.dfsly.android.logisticsupport.ItemDownTimeCardView
         android:id="@+id/logistic4"
         style="@style/CardView.Reactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="0.5dp"
-        app:cardBackgroundColor="@color/grey_450"/>
-    <!--<androidx.cardview.widget.CardView-->
-    <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
-    <!--android:layout_margin="0.5dp"-->
-    <!--app:cardBackgroundColor="@color/grey_450"-->
-    <!--android:id="@+id/logistic1"-->
+        app:cardBackgroundColor="@color/grey_300"/>
+    </LinearLayout>
 
-    <!--style="@style/CardView.Reactive">-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="240dp"-->
-    <!--android:layout_height="30dp"-->
-    <!--android:gravity="center"-->
-    <!--&gt;-->
-    <!--<TextView-->
-    <!--android:id="@+id/select_logistic1"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="logistic1     "-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--<TextView-->
-    <!--android:id="@+id/time_logistic_1"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="01:00"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--</LinearLayout>-->
-    <!--</androidx.cardview.widget.CardView>-->
-
-    <!--<androidx.cardview.widget.CardView-->
-    <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
-    <!--android:layout_margin="0.5dp"-->
-    <!--app:cardBackgroundColor="@color/grey_450"-->
-    <!--android:id="@+id/logistic2"-->
-
-    <!--style="@style/CardView.Reactive">-->
-    <!--<LinearLayout-->
-    <!--android:gravity="center"-->
-    <!--android:layout_width="240dp"-->
-    <!--android:layout_height="30dp">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="logistic2     "-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--<TextView-->
-    <!--android:id="@+id/time_logistic_2"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="01:00"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--</LinearLayout>-->
-    <!--</androidx.cardview.widget.CardView>-->
-    <!--<androidx.cardview.widget.CardView-->
-    <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
-    <!--android:layout_margin="0.5dp"-->
-    <!--app:cardBackgroundColor="@color/grey_450"-->
-    <!--android:id="@+id/logistic3"-->
-    <!--style="@style/CardView.Reactive">-->
-    <!--<LinearLayout-->
-    <!--android:gravity="center"-->
-    <!--android:layout_width="240dp"-->
-    <!--android:layout_height="30dp">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="logistic3     "-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--<TextView-->
-    <!--android:id="@+id/time_logistic_3"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="01:00"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--</LinearLayout>-->
-    <!--</androidx.cardview.widget.CardView>-->
-    <!--<androidx.cardview.widget.CardView-->
-    <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
-    <!--android:layout_margin="0.5dp"-->
-    <!--app:cardBackgroundColor="@color/grey_450"-->
-    <!--android:id="@+id/logistic4"-->
-
-    <!--style="@style/CardView.Reactive">-->
-    <!--<LinearLayout-->
-    <!--android:gravity="center"-->
-    <!--android:layout_width="240dp"-->
-    <!--android:layout_height="30dp">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="logistic4     "-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--<TextView-->
-    <!--android:id="@+id/time_logistic_4"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="01:00"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--</LinearLayout>-->
-    <!--</androidx.cardview.widget.CardView>-->
 </LinearLayout>

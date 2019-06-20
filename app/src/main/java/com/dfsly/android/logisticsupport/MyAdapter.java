@@ -16,7 +16,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
     List<Logistic> logistics;
     LayoutInflater inflater;
     Drawable drawable;
-
+    LogisticService.LogisticServiceBinder logisticServiceBinder;
     public MyAdapter(Context context, List<Logistic> logistics) {
         inflater = LayoutInflater.from(context);
         this.mContext = context;
@@ -28,6 +28,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
         //attachToRoot为false，不需要让父视图（recyclerView）自行处理childView
         MyHolder myHolder = new MyHolder(inflater.inflate(R.layout.list_item_content, parent, false));
         return myHolder;
+    }
+
+    public void setBinder(LogisticService.LogisticServiceBinder logisticServiceBinder){
+        this.logisticServiceBinder = logisticServiceBinder;
     }
 
     @Override
@@ -62,6 +66,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
                 boolean isChecked = holder.checkBoxDownTimeSave.isChecked();
                 logistic.isSave=isChecked;
                 Settings.putBoolean(Integer.toString(logistic.getId()),isChecked);
+                if(logisticServiceBinder!=null){
+
+                    System.out.println("i can refresh");
+                }
+                if(logisticServiceBinder!=null){
+                    logisticServiceBinder.refreshLogisticList();
+                }
             }
         });
 

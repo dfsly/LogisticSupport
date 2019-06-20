@@ -1,112 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ed_back"
+    android:gravity="center_vertical|right"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/card_view_edit_time"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:layout_marginRight="90dp"
+        android:id="@+id/cv_no_touch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/grey_275"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2dp"
+        app:cardMaxElevation="2dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="0dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_name"
-            style="@style/CardView.Reactive"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/grey_450">
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/edit_logistic_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="-5dp"
+                android:text="8-1"
+                android:textColor="@color/text_color"
+                android:textSize="17sp" />
 
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:id="@+id/edit_logistic_name"
-                    android:paddingRight="6dp"
-                    android:textSize="17sp"
-                    android:text="8-1" />
+            <!--<Button-->
+                <!--android:layout_alignRight="@id/dialog_time_picker"-->
 
-        </androidx.cardview.widget.CardView>
+                <!--android:id="@+id/ed_back"-->
+                <!--android:layout_width="35dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:background="@drawable/back" />-->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_content"
-            style="@style/CardView.Reactive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cv_name"
-            app:cardBackgroundColor="@color/grey_450">
+            <TimePicker
+                android:layout_below="@id/edit_logistic_name"
+                android:id="@+id/dialog_time_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:calendarViewShown="false"
+                android:theme="@style/Theme.picker"
+                android:timePickerMode="spinner"/>
 
-            <LinearLayout
-                android:id="@+id/re_content"
-                android:layout_width="160dp"
-                android:layout_height="40dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="16dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:textSize="17sp"
-                    android:gravity="right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="时:" />
-                <EditText
-                    android:layout_weight="1"
-
-                    android:id="@+id/hour_edit_time_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:textSize="17sp"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="分:" />
-
-                <EditText
-                    android:layout_weight="1"
-
-                    android:id="@+id/minute_edit_time_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_alignBottom="@+id/cv_name"
-            style="@style/CardView.Reactive"
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/grey_450">
-
-            <Button
-                android:id="@+id/ed_back"
-                android:layout_width="35dp"
-                android:layout_height="30dp"
-                android:background="@drawable/back" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            style="@style/CardView.Reactive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cv_content"
-            android:layout_alignParentRight="true"
-            app:cardBackgroundColor="@color/grey_450">
-
-            <Button
+            <TextView
+                android:layout_below="@id/dialog_time_picker"
+                android:layout_alignRight="@id/dialog_time_picker"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="-5dp"
                 android:id="@+id/confirm"
-                android:layout_width="35dp"
+                android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:background="@drawable/ic_check_black_24dp" />
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/text_color"
+                android:textSize="17sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!--<RelativeLayout-->
+    <!--android:layout_width="195dp"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--<androidx.cardview.widget.CardView-->
+    <!--android:id="@+id/cv_back"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--style="@style/CardView.Reactive"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:cardBackgroundColor="@color/grey_300">-->
+    <!--<Button-->
+    <!--android:id="@+id/ed_back"-->
+    <!--android:layout_width="35dp"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:background="@drawable/back" />-->
+    <!--</androidx.cardview.widget.CardView>-->
+    <!--</RelativeLayout>-->
+
+    <!--<androidx.cardview.widget.CardView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:cardBackgroundColor="@color/grey_300"-->
+    <!--app:cardCornerRadius="4dp"-->
+    <!--app:cardElevation="2dp"-->
+    <!--app:cardMaxElevation="2dp"-->
+    <!--app:cardPreventCornerOverlap="true"-->
+    <!--app:cardUseCompatPadding="true"-->
+    <!--app:contentPadding="0dp">-->
+
+    <!--&lt;!&ndash;160dp包裹&ndash;&gt;-->
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/card_view_edit_time"-->
+    <!--android:layout_width="190dp"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="200dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:background="#99CCFF"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="60dp">&ndash;&gt;-->
+    <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/cv_name"-->
+    <!--android:layout_alignLeft="@id/cv_content"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/edit_logistic_name"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="-1dp"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:paddingLeft="10dp"-->
+    <!--android:text="8-1"-->
+    <!--android:textColor="@color/text_color"-->
+    <!--android:textSize="17sp" />-->
+    <!--</LinearLayout>-->
+
+    <!--<androidx.cardview.widget.CardView-->
+    <!--android:id="@+id/cv_content"-->
+    <!--style="@style/CardView.Reactive"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/cv_name"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--app:cardBackgroundColor="@color/grey_400">-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/re_content"-->
+    <!--android:layout_width="160dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:paddingLeft="10dp"-->
+    <!--android:paddingRight="16dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="right"-->
+    <!--android:text="时:"-->
+    <!--android:textColor="@color/text_color"-->
+    <!--android:textSize="17sp" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/hour_edit_time_layout"-->
+
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:inputType="number" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="right"-->
+    <!--android:text="分:"-->
+    <!--android:textColor="@color/text_color"-->
+    <!--android:textSize="17sp" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/minute_edit_time_layout"-->
+
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:inputType="number" />-->
+
+    <!--</LinearLayout>-->
+    <!--</androidx.cardview.widget.CardView>-->
+
+
+    <!--<androidx.cardview.widget.CardView-->
+    <!--style="@style/CardView.Reactive"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/cv_content"-->
+    <!--android:layout_alignRight="@id/cv_content"-->
+    <!--android:layout_marginBottom="5dp"-->
+    <!--app:cardBackgroundColor="@color/grey_350">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/confirm"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="@color/text_color"-->
+    <!--android:textSize="17sp"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:text="确认"/>-->
+    <!--&lt;!&ndash;<Button&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/confirm"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="35dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="30dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:background="@drawable/ic_check_black_24dp" />&ndash;&gt;-->
+    <!--</androidx.cardview.widget.CardView>-->
+    <!--</RelativeLayout>-->
+    <!--</androidx.cardview.widget.CardView>-->
 </LinearLayout>

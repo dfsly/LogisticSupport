@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/grey_350</item>
+        <item name="colorPrimaryDark">@color/text_color</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -25,6 +25,13 @@
     <style name="TextViewStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Theme.picker" parent="android:Theme.Holo.Dialog">
+        <item name="android:editTextStyle">@style/Widget.EditText.White</item>
+    </style>
+    <style name="Widget.EditText.White" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 </resources>
