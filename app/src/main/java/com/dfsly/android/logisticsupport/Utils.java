@@ -2,6 +2,8 @@ package com.dfsly.android.logisticsupport;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 public class Utils {
     public static String getTextTime(int h, int m){
@@ -32,5 +34,14 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    public static String getVersionName(Context context){
+        try{
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pInfo.versionName;
+        }catch (PackageManager.NameNotFoundException e){
+            return "unknown";
+        }
     }
 }

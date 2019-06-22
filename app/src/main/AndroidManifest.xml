@@ -24,6 +24,8 @@
         <activity
             android:name=".SettingsActivity"
             android:launchMode="singleTask" />
+        <activity android:name=".AboutMeActivity" />
+
         <service android:name="com.dfsly.android.logisticsupport.LogisticService" />
     </application>
 

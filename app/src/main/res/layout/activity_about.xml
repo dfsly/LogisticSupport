@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/about_back"
+        android:layout_width="match_parent"
+        android:drawableLeft="@drawable/ic_navigate_before_black_24dp"
+        android:text="关于"
+        android:background="@color/grey_300"
+        android:gravity="center_vertical"
+        android:textColor="@color/text_color"
+        android:layout_height="40dp" />
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/text_color"
+                android:layout_width="match_parent"
+                android:text="作者"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:text="dfsly"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <include layout="@layout/line"/>
+
+        <LinearLayout
+            android:id="@+id/author"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/text_color"
+                android:layout_width="match_parent"
+                android:text="发布地址"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:text="@string/author"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <include layout="@layout/line"/>
+        <LinearLayout
+            android:id="@+id/source_code"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/text_color"
+                android:layout_width="match_parent"
+                android:text="源码"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:text="@string/source_code"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <include layout="@layout/line"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/text_color"
+                android:layout_width="match_parent"
+                android:text="版本号"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/version_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <include layout="@layout/line"/>
+    </LinearLayout>
+
+</LinearLayout>

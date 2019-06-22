@@ -4,6 +4,9 @@
         android:id="@+id/nav_settings"
         android:icon="@drawable/ic_brightness_low_black_24dp"
         android:title="设置" />
-    <!--<item android:icon="@mipmap/ic_ls"-->
-        <!--android:title="all 30W"/>-->
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@drawable/ic_error_outline_black_24dp"
+        android:title="关于"
+        />
 </menu>

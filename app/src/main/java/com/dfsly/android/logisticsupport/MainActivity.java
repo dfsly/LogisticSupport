@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.nav_settings) {
             startActivity(SettingsActivity.newIntent(this));
+        }else if(id==R.id.nav_about){
+            startActivity(AboutMeActivity.newIntent(this));
         }
         if (drawerLayout != null && drawerLayout.isDrawerOpen(Gravity.LEFT)) {
             drawerLayout.closeDrawers();

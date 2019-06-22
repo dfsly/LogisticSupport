@@ -7,4 +7,6 @@
     <string name="no">编号</string>
     <string name="item">道具</string>
     <string name="time">时长</string>
+    <string name="author">https://bbs.nga.cn/read.php?tid=17537075</string>
+    <string name="source_code">https://github.com/dfsly/LogisticSupport</string>
 </resources>
