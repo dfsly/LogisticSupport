@@ -5,20 +5,54 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:layout_height="match_parent">
         <include
             android:id="@+id/include_title"
             layout="@layout/list_title" />
+        <!--<androidx.cardview.widget.CardView-->
+            <!--android:id="@+id/search_bar"-->
+            <!--style="@style/CardView.Reactive"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:elevation="2.1dp"
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="33dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:background="@color/content_light"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+                    <Button
+                        android:id="@+id/but_start_nav"
+                        android:layout_width="33dp"
+                        android:background="@drawable/ic_menu_black_24dp"
+                        android:layout_height="33dp" />
+                </LinearLayout>
+                <View
+                    android:background="@color/content_light"
+                    android:layout_width="0dp"
+                    android:layout_weight="7.4"
+                    android:layout_height="match_parent"/>
+                <View
+                    android:visibility="invisible"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        <!--</androidx.cardview.widget.CardView>-->
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@id/include_title"
             android:id="@+id/logistic_data_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="270dp"

@@ -44,6 +44,18 @@ public class Settings {
             return defValue;
         }
     }
+    public static void putLoog(String key, long value) {
+        sSettingsPre.edit().putLong(key, value).apply();
+    }
+    static Long getLong(String key,Long defValue){
+        try {
+            return sSettingsPre.getLong(key, defValue);
+        } catch (ClassCastException e) {
+            Log.d(TAG, "Get ClassCastException when get " + key + " value", e);
+            return defValue;
+        }
+    }
+
 
     public static Map<String,?> getAll(){
         return sSettingsPre.getAll();

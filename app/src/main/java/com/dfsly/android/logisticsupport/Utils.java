@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import java.util.Calendar;
+
 public class Utils {
     public static String getTextTime(int h, int m){
         String timeText;
@@ -44,4 +46,33 @@ public class Utils {
             return "unknown";
         }
     }
+
+    static void saveCurrentDate(){
+        long l = System.currentTimeMillis();
+        Settings.putLoog("saveTime",l);
+    }
+
+    static void saveCurrentTime(int index){
+        long l = System.currentTimeMillis();
+        Settings.putLoog("saveTime"+index,l);
+    }
+
+    static long getSubtract(){
+        long l = System.currentTimeMillis()-Settings.getLong("saveTime",(long)0);
+        if(l>24*60*60*1000){
+            return -1;
+        }else{
+            return l;
+        }
+    }
+
+    static long SubtractSystemTime(int index){
+        long l = System.currentTimeMillis()-Settings.getLong("saveTime",(long)0);
+        if(l>24*60*60*1000){
+            return -1;
+        }else{
+            return l;
+        }
+    }
+
 }

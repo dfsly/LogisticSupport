@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView ivStarOval;
     DrawerLayout drawerLayout;
     MyAdapter myAdapter;
+    View mSearchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +45,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         recyclerView = findViewById(R.id.logistic_data_recycler_view);
         ivStarOval = findViewById(R.id.oval_start);
+        mSearchBar = findViewById(R.id.search_bar);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         LogisticLab logisticLab = LogisticLab.get(this);
         List<Logistic> logistics = logisticLab.getLogistics();
         myAdapter = new MyAdapter(this, logistics);
         recyclerView.setAdapter(myAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                System.out.println("fuuuuHeight"+dy);
+//                if(dy<=mSearchBar.getHeight()){
+                    mSearchBar.setTranslationY(mSearchBar.getTranslationY()-dy);
+//                }
+            }
+        });
+
 
         NavigationView navView = findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(this);
 
+        findViewById(R.id.but_start_nav).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
 //        //activity意外销毁重建时设置悬浮球颜色
 //        if (savedInstanceState != null) {
 //            if (savedInstanceState.getBoolean("ovalSwitch")) {
@@ -145,7 +163,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(connection);
+        if(Utils.isServiceStart(this)){
+            unbindService(connection);
+        }
     }
 
     @Override
