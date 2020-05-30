@@ -43,39 +43,46 @@
     <!--</androidx.cardview.widget.CardView>-->
     <!--</RelativeLayout>-->
     <LinearLayout
-        android:orientation="vertical"
-        android:background="@color/text_color"
         android:id="@+id/down_time_layout_alpha"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    <com.dfsly.android.logisticsupport.ItemDownTimeCardView
-        android:id="@+id/logistic1"
-        style="@style/CardView.Reactive"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/grey_300"/>
+        android:background="@color/text_color"
+        android:orientation="vertical">
 
-    <com.dfsly.android.logisticsupport.ItemDownTimeCardView
-        android:id="@+id/logistic2"
-        style="@style/CardView.Reactive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/grey_300"/>
+        <com.dfsly.android.logisticsupport.ItemDownTimeCardView
+            android:id="@+id/explore"
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/grey_300" />
 
-    <com.dfsly.android.logisticsupport.ItemDownTimeCardView
-        android:id="@+id/logistic3"
-        style="@style/CardView.Reactive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/grey_300"/>
+        <com.dfsly.android.logisticsupport.ItemDownTimeCardView
+            android:id="@+id/logistic1"
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/grey_300" />
 
-    <com.dfsly.android.logisticsupport.ItemDownTimeCardView
-        android:id="@+id/logistic4"
-        style="@style/CardView.Reactive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/grey_300"/>
+        <com.dfsly.android.logisticsupport.ItemDownTimeCardView
+            android:id="@+id/logistic2"
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/grey_300" />
+
+        <com.dfsly.android.logisticsupport.ItemDownTimeCardView
+            android:id="@+id/logistic3"
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/grey_300" />
+
+        <com.dfsly.android.logisticsupport.ItemDownTimeCardView
+            android:id="@+id/logistic4"
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/grey_300" />
     </LinearLayout>
 
 </LinearLayout>

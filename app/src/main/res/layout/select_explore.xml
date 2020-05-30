@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_select_logistic"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="165dp"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            style="@style/CardView.Reactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:cardBackgroundColor="@color/grey_275">
+
+            <Button
+                android:id="@+id/select_list_return"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:background="@drawable/back" />
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+
+
+    <ScrollView
+        android:id="@+id/sv_list_logistic"
+        android:layout_width="wrap_content"
+        android:layout_height="255dp"
+        android:background="@color/text_color">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/grey_275"
+                style="@style/CardView.Reactive">
+                <TextView
+                    android:id="@+id/cancel_button"
+                    android:layout_width="160dp"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    android:text="取消探索"
+                    android:layout_height="35dp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/CardView.Reactive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/grey_275">
+                <!--450-->
+                <LinearLayout
+                    android:id="@+id/explore_1"
+                    android:layout_width="160dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="探索时长"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/grey_325"
+                        android:gravity="center"
+                        android:text="2:00"
+                        android:textColor="@color/text_color" />
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/CardView.Reactive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/grey_275">
+                <!--450-->
+                <LinearLayout
+                    android:id="@+id/explore_2"
+                    android:layout_width="160dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="探索时长"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/grey_325"
+                        android:gravity="center"
+                        android:text="5:00"
+                        android:textColor="@color/text_color" />
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/CardView.Reactive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/grey_275">
+                <!--450-->
+                <LinearLayout
+                    android:id="@+id/explore_3"
+                    android:layout_width="160dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="探索时长"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/grey_325"
+                        android:gravity="center"
+                        android:text="8:00"
+                        android:textColor="@color/text_color" />
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

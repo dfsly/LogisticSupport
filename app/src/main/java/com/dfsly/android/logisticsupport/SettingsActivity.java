@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.view.Menu;
 import android.view.View;
 import android.widget.NumberPicker;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 public class SettingsActivity extends AppCompatActivity {
     SwitchCompat checkBoxSwitchTopToast;
+    SwitchCompat switchExplore;
 //    EditText editTextDelayTopToast;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         //顶部通知的开关
         checkBoxSwitchTopToast = findViewById(R.id.switch_top_toast);
+        switchExplore = findViewById(R.id.switch_explore);
         View NPView = View.inflate(this,R.layout.dialog_number_picker,null);
         final NumberPicker secondPicker = NPView.findViewById(R.id.second_picker);
         secondPicker.setMaxValue(20);
@@ -72,6 +75,18 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+        switchExplore.setChecked(Settings.getBoolean("switch_explore",true));
+        switchExplore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isChecked = switchExplore.isChecked();
+                Settings.putBoolean("switch_explore",isChecked);
+                //更新服务
+//                if(logisticServiceBinder!=null){
+//                    logisticServiceBinder.setToastSwitch(isChecked);
+//                }
+            }
+        });
 
         findViewById(R.id.settings_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,9 +94,39 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        SeekBar changeOval = findViewById(R.id.change_oval);
+        changeOval.setProgress(Settings.getInt("ovalSize",32)-32);
+        changeOval.setOnSeekBarChangeListener(new MySeekBarChangeListener());
         //绑定服务
         bindServices();
     }
+
+    class MySeekBarChangeListener implements SeekBar.OnSeekBarChangeListener{
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+//            Toast.makeText(SettingsActivity.this,"seekBar.getProgress()="+seekBar.getProgress(),Toast.LENGTH_SHORT).show();
+            if(logisticServiceBinder!=null){
+                int sizeDip =seekBar.getProgress()+32;
+                logisticServiceBinder.refreshOval(Utils.dip2px(SettingsActivity.this,sizeDip));
+                //存本地
+                Settings.putInt("ovalSize",sizeDip);
+//                System.out.println("96"+Utils.dip2px(SettingsActivity.this,50));
+            }
+        }
+    }
+
+
 
     public static Intent newIntent(Context context){
         return new Intent(context,SettingsActivity.class);

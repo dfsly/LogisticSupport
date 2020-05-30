@@ -5,9 +5,10 @@
     app:cardBackgroundColor="@color/grey_275"
     style="@style/CardView.Reactive">
     <TextView
+        android:id="@+id/cancel_button"
         android:layout_width="160dp"
         android:gravity="center"
         android:textColor="@color/text_color"
-        android:text="请前往主页面添加后勤"
+        android:text="取消该后勤"
         android:layout_height="35dp" />
 </androidx.cardview.widget.CardView>

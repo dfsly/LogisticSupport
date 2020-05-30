@@ -45,19 +45,20 @@ public class LogisticService extends Service implements View.OnTouchListener {
     TimePicker timePicker;
 
     Boolean isShowToast;
+    Boolean isShowExplore;
     int delayTime;
-    int[] keys = new int[4];
+    int[] keys = new int[5];
     //悬浮球
     ImageView imageOval;
     int led_red = 1;
     int led_gre = 2;
     int led_whi = 0;
-    int[] led_state = {led_whi, led_whi, led_whi, led_whi};
+    int[] led_state = {led_whi, led_whi, led_whi, led_whi,led_whi};
     //倒计时视图
-    CardView[] cardViews = new CardView[4];
-    TextView[] editTimes = new TextView[4];
-    TextView[] restarts = new TextView[4];
-    TextView[] nameDownTimeLayout = new TextView[4];
+    CardView[] cardViews = new CardView[5];
+    TextView[] editTimes = new TextView[5];
+    TextView[] restarts = new TextView[5];
+    TextView[] nameDownTimeLayout = new TextView[5];
     //修改时间视图
     LinearLayout cdWindowEditTime;
     WindowManager.LayoutParams editTimeLayoutParams;
@@ -65,17 +66,18 @@ public class LogisticService extends Service implements View.OnTouchListener {
     //    EditText hourEditTimeLayout;
 //    EditText minuteEditTimeLayout;
     //toast
-    View[] llWindowToasts = new View[4];
+    View[] llWindowToasts = new View[5];
     WindowManager.LayoutParams toastLayoutParams;
 
     WindowManager windowManager;
     Button mButtonShrink;
-    MyCountDownTimer[] myCountDownTimers = new MyCountDownTimer[4];
+    MyCountDownTimer[] myCountDownTimers = new MyCountDownTimer[5];
 
     LinearLayout llWindowDownTime;
     View ivWindowOval;
     //后勤列表
     private LinearLayout llWindowSelectLogistic;
+    private LinearLayout llWindowSelectExplore;
     LinearLayout llListLogistic;
 
     WindowManager.LayoutParams defaultLayoutParams;
@@ -104,6 +106,15 @@ public class LogisticService extends Service implements View.OnTouchListener {
 //            windowManager.addView(llWindowSelectLogistic,defaultLayoutParams);
         }
 
+        public void refreshOval(int size) {
+            //设置悬浮球大小
+            ViewGroup.LayoutParams p = imageOval.getLayoutParams();
+            p.height=size;
+            p.width=size;
+            imageOval.setLayoutParams(p);
+            windowManager.updateViewLayout(ivWindowOval, defaultLayoutParams);
+        }
+
         public void setToastSwitch(boolean b) {
             isShowToast = b;
         }
@@ -120,7 +131,8 @@ public class LogisticService extends Service implements View.OnTouchListener {
     }
 
     void refreshOvalColor() {
-        for (int i = 0; i < 4; i++) {
+        imageOval.setImageDrawable(getResources().getDrawable(R.drawable.oval_button));
+        for (int i = 0; i < 5; i++) {
             if (led_state[i] == led_red) {
                 imageOval.setImageDrawable(getResources().getDrawable(R.drawable.oval_red));
                 break;
@@ -130,10 +142,19 @@ public class LogisticService extends Service implements View.OnTouchListener {
         }
     }
 
+    private void setOvalSize(ImageView oval){
+        ViewGroup.LayoutParams p = oval.getLayoutParams();
+        int size = Utils.dip2px(this,Settings.getInt("ovalSize",32));
+        p.height=size;
+        p.width=size;
+        oval.setLayoutParams(p);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         isShowToast = Settings.getBoolean("switch_toast", true);
+        isShowExplore = Settings.getBoolean("switch_explore", true);
         delayTime = Settings.getInt("delay_time", 5) * 1000;
         logistics = LogisticLab.get(getApplicationContext()).getLogistics();
 
@@ -141,10 +162,10 @@ public class LogisticService extends Service implements View.OnTouchListener {
         ivWindowOval = View.inflate(this, R.layout.window_oval, null);
         imageOval = ivWindowOval.findViewById(R.id.image_oval);
         //设置悬浮球大小
-//        ViewGroup.LayoutParams p = imageOval.getLayoutParams();
-//        p.height=300;
-//        p.width=300;
-//        imageOval.setLayoutParams(p);
+        setOvalSize(imageOval);
+
+        ViewGroup.LayoutParams p = imageOval.getLayoutParams();
+        System.out.println("宽"+p.width+"高"+p.height);
 
         ivWindowOval.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,19 +188,36 @@ public class LogisticService extends Service implements View.OnTouchListener {
         cardViews[1] = llWindowDownTime.findViewById(R.id.logistic2);
         cardViews[2] = llWindowDownTime.findViewById(R.id.logistic3);
         cardViews[3] = llWindowDownTime.findViewById(R.id.logistic4);
+        cardViews[4] = llWindowDownTime.findViewById(R.id.explore);
+        //判断探索功能是否开启
+        if(!isShowExplore){
+            cardViews[4].setVisibility(View.GONE);
+        }
         //设置编辑时间按钮的点击监听
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             editTimes[i] = cardViews[i].findViewById(R.id.edit_time);
             editTimes[i].setOnClickListener(new StartETLClcikListener(i));
             restarts[i] = cardViews[i].findViewById(R.id.restart);
             restarts[i].setOnClickListener(new restartClickListener(i));
         }
 
+        //跳转到后勤选择界面
         for (int i = 0; i < 4; i++) {
             cardViews[i].setOnClickListener(new StartSelectLogisticLayoutClickListener(i));
             nameDownTimeLayout[i] = cardViews[i].findViewById(R.id.id_logistic);
-            nameDownTimeLayout[i].setText("后勤" + (i + 1) + ":");
+//            nameDownTimeLayout[i].setText("后勤" + (i + 1) + ":");
         }
+        //跳转到探索选择界面
+        cardViews[4].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                index=4;
+                llWindowDownTime.setVisibility(View.GONE);
+                llWindowSelectExplore.setVisibility(View.VISIBLE);
+            }
+        });
+        nameDownTimeLayout[4] = cardViews[4].findViewById(R.id.id_logistic);
+        nameDownTimeLayout[4].setText("探索");
 
         windowManager = (WindowManager) getApplicationContext().getSystemService(
                 Context.WINDOW_SERVICE);
@@ -189,6 +227,7 @@ public class LogisticService extends Service implements View.OnTouchListener {
         initEditTimeLayoutParams();
 
         initSelectLayout();
+        initSelectExploreLayout();
 
         initEditTimeLayout();
         initToastLayoutParams(getResources().getConfiguration().orientation);
@@ -199,42 +238,17 @@ public class LogisticService extends Service implements View.OnTouchListener {
         windowManager.addView(llWindowSelectLogistic, defaultLayoutParams);
         windowManager.addView(cdWindowEditTime, editTimeLayoutParams);
         ivWindowOval.setOnTouchListener(this);
-//        initTestDialog();
 
         //恢复意外中断的倒计时
-//        long subtractTime = Utils.getSubtract();
-//        for(int i=0;i<4;i++){
-//            //倒计时过程中服务被停止，则millis有不为-1的值，其他情况均为-1
-//            long millis = Settings.getLong("cdt"+i,(long)-1);
-//            if(millis!=-1){
-//                long restartTime;
-//                if(subtractTime==-1||subtractTime>millis){
-//                    restartTime=1;
-//                }else{
-//                    restartTime = millis-subtractTime;
-//                }
-//                System.out.println("myCountDownTimers save"+i+millis);
-//                myCountDownTimers[i] = new MyCountDownTimer(restartTime,1000,i);
-//                myCountDownTimers[i].start();
-//                cardViews[i].setCardBackgroundColor(getResources().getColor(R.color.light_green_600));
-//                led_state[i] = led_gre;
-//                TextView tv = cardViews[i].findViewById(R.id.id_logistic);
-//                keys[i]=Settings.getInt("cdn"+i,0);
-//                Logistic l = logistics.get(keys[i]);
-//                tv.setText(l.getNo());
-//            }
-//        }
-//        refreshOvalColor();
-        //恢复意外中断的倒计时
         long l = System.currentTimeMillis();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             //获取先前启动定时器时系统的时间
             long saveTime = Settings.getLong("saveTime" + i, (long) -1);
             //获取先前启动定时器时输入的时间
             long logisticTime = Settings.getLong("cdt"+i,(long)-1);
 
 //            System.out.println("fuuusaveTime" + saveTime);
-            if (saveTime != -1||logisticTime!=-1) {
+            if (saveTime != -1&&logisticTime!=-1) {
                 long t = l - saveTime;
 //                System.out.println("fuuulogisticTime" + logisticTime);
                 long restartTime = logisticTime - t;
@@ -251,10 +265,13 @@ public class LogisticService extends Service implements View.OnTouchListener {
                 led_state[i] = led_gre;
 
 //                System.out.println("fuuulogisticNo" +  Settings.getInt("cdn" + i, 0));
-
-                Logistic logistic = logistics.get(keys[i]);
-                TextView tv = cardViews[i].findViewById(R.id.id_logistic);
-                tv.setText(logistic.getNo());
+                if(i<=3){
+                    Logistic logistic = logistics.get(keys[i]);
+//                    TextView tv = cardViews[i].findViewById(R.id.id_logistic);
+//                    tv.setText(logistic.getNo());
+                    nameDownTimeLayout[i].setTextSize(16);
+                    nameDownTimeLayout[i].setText(logistic.getNo());
+                }
             }
         }
         refreshOvalColor();
@@ -318,7 +335,8 @@ public class LogisticService extends Service implements View.OnTouchListener {
         @Override
         public void onClick(View v) {
             index = i;
-            nameEditTimeLayout.setText(nameDownTimeLayout[i].getText());
+            if(index<=3) nameEditTimeLayout.setText("后勤  "+nameDownTimeLayout[i].getText());
+            else if(index==4)nameEditTimeLayout.setText(nameDownTimeLayout[i].getText());
             //拿到倒计时当前的时间，并赋值给timePicker
             TextView textView = cardViews[i].findViewById(R.id.time_logistic);
             String s = textView.getText().toString();
@@ -339,8 +357,13 @@ public class LogisticService extends Service implements View.OnTouchListener {
         @Override
         public void onClick(View v) {
             myCountDownTimers[i].cancel();
-            Logistic l = logistics.get(keys[i]);
-            long millis = Utils.getMillis(l.getH(), l.getM());
+            long millis=0;
+            if(i<=3){
+                Logistic l = logistics.get(keys[i]);
+                millis = Utils.getMillis(l.getH(), l.getM());
+            }else if(i==4){
+                millis = Utils.getMillis(keys[i]-1000,0);
+            }
             myCountDownTimers[i] = new MyCountDownTimer(millis, 1000, i);
             myCountDownTimers[i].start();
             cardViews[i].setCardBackgroundColor(getResources().getColor(R.color.light_green_600));
@@ -495,9 +518,77 @@ public class LogisticService extends Service implements View.OnTouchListener {
         llWindowSelectLogistic.setVisibility(View.GONE);
     }
 
+    private void initSelectExploreLayout() {
+        //添加布局
+        llWindowSelectExplore = (LinearLayout) View.inflate(this, R.layout.select_explore, null);
+        //拿到容器布局
+        llWindowSelectExplore.findViewById(R.id.select_list_return).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWindowSelectExplore.setVisibility(View.GONE);
+                llWindowDownTime.setVisibility(View.VISIBLE);
+            }
+        });
+        llWindowSelectExplore.findViewById(R.id.sv_list_logistic).getBackground().setAlpha(50);
+        (llWindowSelectExplore.findViewById(R.id.explore_1)).setOnClickListener(new CheckItemOnClick(1003));
+        (llWindowSelectExplore.findViewById(R.id.explore_2)).setOnClickListener(new CheckItemOnClick(1005));
+        (llWindowSelectExplore.findViewById(R.id.explore_3)).setOnClickListener(new CheckItemOnClick(1008));
+        (llWindowSelectExplore.findViewById(R.id.cancel_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //取消探索
+                llWindowDownTime.setVisibility(View.VISIBLE);
+                llWindowSelectExplore.setVisibility(View.GONE);
+                restarts[index].setVisibility(View.GONE);
+                editTimes[index].setVisibility(View.GONE);
+                cardViews[index].findViewById(R.id.placeholder).setVisibility(View.VISIBLE);
+                if (myCountDownTimers[index] != null) {
+                    myCountDownTimers[index].cancel();
+                }
+                nameDownTimeLayout[index].setText("探索");
+                TextView tv = (cardViews[index].findViewById(R.id.time_logistic));
+                tv.setText("00:00:00");
+                Settings.putInt("cdn" + index, -1);
+                Settings.putLoog("cdt" + index, -1);
+                cardViews[index].setCardBackgroundColor(getResources().getColor(R.color.grey_300));
+                led_state[index] = led_whi;
+            }
+        });
+
+        //初始化完成后设置为不可见
+        llWindowSelectExplore.setVisibility(View.GONE);
+        windowManager.addView(llWindowSelectExplore, defaultLayoutParams);
+    }
+
     public void addItem(LinearLayout llListLogistic) {
         Logistic logistic;
         boolean remindAdd = true;
+        //取消后勤
+        layoutChild = LayoutInflater.from(this).inflate(R.layout.cancel_logistic, llWindowSelectLogistic, false);
+        (layoutChild.findViewById(R.id.cancel_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWindowDownTime.setVisibility(View.VISIBLE);
+                llWindowSelectLogistic.setVisibility(View.GONE);
+                restarts[index].setVisibility(View.GONE);
+                editTimes[index].setVisibility(View.GONE);
+                cardViews[index].findViewById(R.id.placeholder).setVisibility(View.VISIBLE);
+                if (myCountDownTimers[index] != null) {
+                    myCountDownTimers[index].cancel();
+                }
+                nameDownTimeLayout[index].setText("后勤");
+                nameDownTimeLayout[index].setTextSize(15);
+               TextView tv = (cardViews[index].findViewById(R.id.time_logistic));
+               tv.setText("00:00:00");
+                Settings.putInt("cdn" + index, -1);
+                Settings.putLoog("cdt" + index, -1);
+                cardViews[index].setCardBackgroundColor(getResources().getColor(R.color.grey_300));
+                led_state[index] = led_whi;
+            }
+        });
+        llListLogistic.addView(layoutChild);
+
+        //遍历全部后勤，将用户在主界面选择过的后勤添加到悬浮球后勤选择界面
         for (int i = 0; i < logistics.size(); i++) {
             logistic = logistics.get(i);
             if (logistic.isSave) {
@@ -537,18 +628,31 @@ public class LogisticService extends Service implements View.OnTouchListener {
 
         @Override
         public void onClick(View v) {
-            //点击列表后即时保存该位置对应的后勤编号
+            //点击列表后即时保存该位置对应的后勤/探索编号
             keys[index] = key;
             llWindowDownTime.setVisibility(View.VISIBLE);
-            llWindowSelectLogistic.setVisibility(View.GONE);
-            Logistic l = logistics.get(key);
-            long millis = Utils.getMillis(l.getH(), l.getM());
+            long millis=0;
+            if(key<1000){//后勤
+                llWindowSelectLogistic.setVisibility(View.GONE);
+                Logistic l = logistics.get(key);
+                millis = Utils.getMillis(l.getH(), l.getM());
+//                TextView tv = cardViews[index].findViewById(R.id.id_logistic);
+//                tv.setText(l.getNo());
+                nameDownTimeLayout[index].setText(l.getNo());
+                nameDownTimeLayout[index].setTextSize(16);
+            }else if(key>1000&&key<2000){//探索
+                llWindowSelectExplore.setVisibility(View.GONE);
+                if(key==1003){
+                    millis=Utils.getMillis(2, 0);
+                }else if(key==1005){
+                    millis=Utils.getMillis(5, 0);
+                }else if(key==1008){
+                    millis=Utils.getMillis(8, 0);
+                }
+            }
             if (myCountDownTimers[index] != null) {
                 myCountDownTimers[index].cancel();
             }
-            TextView tv = cardViews[index].findViewById(R.id.id_logistic);
-            tv.setText(l.getNo());
-            tv.setTextSize(17);
             myCountDownTimers[index] = new MyCountDownTimer(millis, 1000, index);
             myCountDownTimers[index].start();
             cardViews[index].setCardBackgroundColor(getResources().getColor(R.color.light_green_600));
@@ -591,9 +695,9 @@ public class LogisticService extends Service implements View.OnTouchListener {
             //启动倒计时的同时保存当前系统时间(在列表中对应的位置)
             Utils.saveCurrentTime(ledIndex);
             Settings.putInt("cdn" + ledIndex, keys[ledIndex]);
+            Settings.putLoog("cdt" + ledIndex, millisInFuture);
 //            System.out.println("fuuuindex" + keys[ledIndex]);
 //            System.out.println("fuuusaveindex" + Settings.getInt("cdn"+ledIndex,0));
-            Settings.putLoog("cdt" + ledIndex, millisInFuture);
         }
 
         @Override
@@ -625,7 +729,11 @@ public class LogisticService extends Service implements View.OnTouchListener {
 
         @Override
         public void onFinish() {
-            tv_time.setText("后勤归来！");
+            if(ledIndex<=3){
+                tv_time.setText("后勤归来！");
+            }else if(ledIndex==4){
+                tv_time.setText("探索归来！");
+            }
             cv.setCardBackgroundColor(getResources().getColor(R.color.red_500));
             imageOval.setImageDrawable(getResources().getDrawable(R.drawable.oval_red));
             led_state[ledIndex] = led_red;
@@ -633,23 +741,17 @@ public class LogisticService extends Service implements View.OnTouchListener {
             restarts[ledIndex].setVisibility(View.VISIBLE);
             if (isShowToast) {
                 //创建并弹出toast窗口通知
-                TextView tv = cardViews[ledIndex].findViewById(R.id.id_logistic);
-                showCustomToast(tv.getText().toString(), ledIndex);
+//                TextView tv = cardViews[ledIndex].findViewById(R.id.id_logistic);
+//                showCustomToast(tv.getText().toString(), ledIndex);
+                showCustomToast(nameDownTimeLayout[ledIndex].getText().toString(), ledIndex);
             }
         }
     }
 
     @Override
     public void onDestroy() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             if (myCountDownTimers[i] != null) {
-//                Settings.putInt("cdn"+i,keys[i]);
-//                if(myCountDownTimers[i].getCurrentMillis()==0){
-//                    Settings.putLoog("cdt"+i,-1);
-//                }else {
-//                    Settings.putLoog("cdt"+i,myCountDownTimers[i].getCurrentMillis());
-//                }
-//                System.out.println("myCountDownTimers"+i+":"+ myCountDownTimers[i].getCurrentMillis());
                 myCountDownTimers[i].cancel();
             }
         }
@@ -657,7 +759,8 @@ public class LogisticService extends Service implements View.OnTouchListener {
         windowManager.removeView(llWindowDownTime);
         windowManager.removeView(ivWindowOval);
         windowManager.removeView(cdWindowEditTime);
-        for (int i = 0; i < 4; i++) {
+        windowManager.removeView(llWindowSelectExplore);
+        for (int i = 0; i < 5; i++) {
             if (llWindowToasts[i] != null) {
                 windowManager.removeView(llWindowToasts[i]);
             }
@@ -672,7 +775,7 @@ public class LogisticService extends Service implements View.OnTouchListener {
 
     public void showCustomToast(String logisticName, int index) {
         //至少需要60s，同一个位置的toast才会被重新赋值
-        llWindowToasts[index] = getToastLayout(logisticName);
+        llWindowToasts[index] = getToastLayout(logisticName,index);
         windowManager.addView(llWindowToasts[index], toastLayoutParams);
         setHeadToastViewAnim(index);
         mHandler.sendEmptyMessageDelayed(index, delayTime);
@@ -683,7 +786,7 @@ public class LogisticService extends Service implements View.OnTouchListener {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what >= 0 && msg.what <= 3) {
+            if (msg.what >= 0 && msg.what <= 4) {
                 animDismiss(msg.what);
             }
         }
@@ -758,10 +861,14 @@ public class LogisticService extends Service implements View.OnTouchListener {
         return result;
     }
 
-    private View getToastLayout(String logisticName) {
+    private View getToastLayout(String logisticName,int index) {
         View llWindowToast = View.inflate(this, R.layout.window_toast, null);
         TextView tv = llWindowToast.findViewById(R.id.content_window_toast);
-        tv.setText("后勤支援" + logisticName + "行动结束！");
+        if(index<=3){
+            tv.setText("后勤支援 " + logisticName + " 行动结束！");
+        }else if(index==4){
+            tv.setText("探索归来！");
+        }
         return llWindowToast;
     }
 
