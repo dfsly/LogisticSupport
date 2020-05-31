@@ -34,6 +34,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 
+import com.dfsly.android.logisticsupport.utils.MediaUtil;
+import com.dfsly.android.logisticsupport.utils.VibrateUtilKt;
+
 import org.w3c.dom.Text;
 
 import java.sql.Time;
@@ -46,7 +49,8 @@ public class LogisticService extends Service implements View.OnTouchListener {
 
     Boolean isShowToast;
     Boolean isShowExplore;
-    int delayTime;
+    boolean vibrateSwitch, mediaSwitch;
+    int delayTime,vibrateDuration;
     int[] keys = new int[5];
     //悬浮球
     ImageView imageOval;
@@ -115,12 +119,13 @@ public class LogisticService extends Service implements View.OnTouchListener {
             windowManager.updateViewLayout(ivWindowOval, defaultLayoutParams);
         }
 
-        public void setToastSwitch(boolean b) {
-            isShowToast = b;
-        }
-
-        public void setToastDelay(int sec) {
-            delayTime = sec * 1000;
+        public void resetSwitch(){
+            isShowToast = Settings.getBoolean("switch_toast", true);
+            isShowExplore = Settings.getBoolean("switch_explore", true);
+            vibrateSwitch = Settings.getBoolean("switch_vibrate", true);
+            mediaSwitch = Settings.getBoolean("switch_media", true);
+            delayTime = Settings.getInt("delay_time", 5) * 1000;
+            vibrateDuration = Settings.getInt("vibrate_duration", 2) * 1000;
         }
     }
 
@@ -155,7 +160,10 @@ public class LogisticService extends Service implements View.OnTouchListener {
         super.onCreate();
         isShowToast = Settings.getBoolean("switch_toast", true);
         isShowExplore = Settings.getBoolean("switch_explore", true);
+        vibrateSwitch = Settings.getBoolean("switch_vibrate", true);
+        mediaSwitch = Settings.getBoolean("switch_media", true);
         delayTime = Settings.getInt("delay_time", 5) * 1000;
+        vibrateDuration = Settings.getInt("vibrate_duration", 2) * 1000;
         logistics = LogisticLab.get(getApplicationContext()).getLogistics();
 
         llWindowDownTime = (LinearLayout) View.inflate(this, R.layout.service_logistic, null);
@@ -170,6 +178,7 @@ public class LogisticService extends Service implements View.OnTouchListener {
         ivWindowOval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaUtil.INSTANCE.stopRing();
                 ivWindowOval.setVisibility(View.GONE);
                 llWindowDownTime.setVisibility(View.VISIBLE);
             }
@@ -178,6 +187,7 @@ public class LogisticService extends Service implements View.OnTouchListener {
         mButtonShrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaUtil.INSTANCE.stopRing();
                 ivWindowOval.setVisibility(View.VISIBLE);
                 llWindowDownTime.setVisibility(View.GONE);
                 refreshOvalColor();
@@ -508,6 +518,7 @@ public class LogisticService extends Service implements View.OnTouchListener {
         llWindowSelectLogistic.findViewById(R.id.select_list_return).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaUtil.INSTANCE.stopRing();
                 showDownTimeList();
             }
         });
@@ -525,6 +536,7 @@ public class LogisticService extends Service implements View.OnTouchListener {
         llWindowSelectExplore.findViewById(R.id.select_list_return).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaUtil.INSTANCE.stopRing();
                 llWindowSelectExplore.setVisibility(View.GONE);
                 llWindowDownTime.setVisibility(View.VISIBLE);
             }
@@ -729,6 +741,12 @@ public class LogisticService extends Service implements View.OnTouchListener {
 
         @Override
         public void onFinish() {
+            if (vibrateSwitch){
+                VibrateUtilKt.vibrate(getApplicationContext(),vibrateDuration);
+            }
+            if (mediaSwitch){
+                MediaUtil.INSTANCE.playRing(getApplicationContext());
+            }
             if(ledIndex<=3){
                 tv_time.setText("后勤归来！");
             }else if(ledIndex==4){

@@ -28,16 +28,9 @@
             android:layout_height="40dp">
             <TextView
                 android:layout_width="wrap_content"
-                android:text="顶部通知设置："
+                android:text="顶部通知："
                 android:textColor="@color/text_color"
 
-                android:gravity="center"
-                android:layout_height="match_parent" />
-            <TextView
-                android:layout_toLeftOf="@id/switch_top_toast"
-                android:layout_width="wrap_content"
-                android:text="开关"
-                android:textColor="@color/text_color"
                 android:gravity="center"
                 android:layout_height="match_parent" />
             <androidx.appcompat.widget.SwitchCompat
@@ -66,7 +59,7 @@
             android:id="@+id/but_save_delay"
             android:layout_width="match_parent"
             android:drawableRight="@drawable/ic_navigate_next_black_24dp"
-            android:text="设置持续时间"
+            android:text="持续时间"
             android:layout_height="40dp" />
     </LinearLayout>
 
@@ -87,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:textColor="@color/text_color"
-                android:text="悬浮球大小设置："
+                android:text="悬浮球大小："
                 android:gravity="center"
                 android:layout_height="40dp" />
         <SeekBar
@@ -115,14 +108,7 @@
             android:layout_height="40dp">
             <TextView
                 android:layout_width="wrap_content"
-                android:text="探索设置："
-                android:textColor="@color/text_color"
-                android:gravity="center"
-                android:layout_height="match_parent" />
-            <TextView
-                android:layout_toLeftOf="@id/switch_explore"
-                android:layout_width="wrap_content"
-                android:text="开关"
+                android:text="探索："
                 android:textColor="@color/text_color"
                 android:gravity="center"
                 android:layout_height="match_parent" />
@@ -134,24 +120,76 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/grey_300"
+        android:layout_height="20dp"/>
 
-        <!--<EditText-->
-            <!--android:inputType="number"-->
-            <!--android:id="@+id/delay_top_toast"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:hint="设置顶部通知停留时间，单位为秒"-->
-            <!--android:layout_height="wrap_content" />-->
-        <!---->
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:text="5S"-->
-            <!--android:layout_height="wrap_content" />-->
-    <!--</LinearLayout>-->
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="震动："
+                android:textColor="@color/text_color"
+                android:gravity="center"
+                android:layout_height="match_parent" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:layout_alignParentRight="true"
+                android:id="@+id/switch_vibrate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+        <include layout="@layout/line"/>
 
+        <TextView
+            android:textColor="@color/text_color"
+            android:gravity="center_vertical"
+            android:id="@+id/btn_vibrate_duration"
+            android:layout_width="match_parent"
+            android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+            android:text="持续时间"
+            android:layout_height="40dp" />
+    </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/grey_300"
+        android:layout_height="20dp"/>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="铃声："
+                android:textColor="@color/text_color"
+                android:gravity="center"
+                android:layout_height="match_parent" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:layout_alignParentRight="true"
+                android:id="@+id/switch_media"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
 </ScrollView>

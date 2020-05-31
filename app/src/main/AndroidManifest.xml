@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dfsly.android.logisticsupport">
 
+    <!--  悬浮球  -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!--  震动  -->
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
